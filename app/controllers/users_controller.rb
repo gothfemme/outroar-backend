@@ -5,8 +5,7 @@ class UsersController < ApplicationController
   def splash
     # response includes conversation titles, friends, and friend requests
 
-    # render json: {conversations: current_user.conversations,
-    #                         friends: current_user.friends, }
+    render json: {conversations: ActiveModel::Serializer::CollectionSerializer.new(current_user.conversations, serializer: ConversationSerializer)}
   end
 
   # GET /users
