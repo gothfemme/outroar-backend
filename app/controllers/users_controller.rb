@@ -1,5 +1,13 @@
 class UsersController < ApplicationController
+  before_action :authenticate_user
   before_action :set_user, only: [:show, :update, :destroy]
+
+  def splash
+    # response includes conversation titles, friends, and friend requests
+
+    # render json: {conversations: current_user.conversations,
+    #                         friends: current_user.friends, }
+  end
 
   # GET /users
   def index
