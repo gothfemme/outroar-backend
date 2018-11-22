@@ -7,7 +7,7 @@ class SignalChannel < ApplicationCable::Channel
   end
 
   def send_signal(data)
-    ActionCable.server.broadcast("signal_channel_user_#{data["to"]}", data["payload"])
+    ActionCable.server.broadcast("signal_channel_user_#{data["to"]}", data.merge({from: @current_user.id})) unless data["to"] == @current_user.id
   end
 
 
