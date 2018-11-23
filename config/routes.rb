@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :memberships
   resources :messages
   resources :conversations
+  get 'current' => 'users#current'
   post 'user_token' => 'user_token#create'
   post 'splash' => 'users#splash'
 

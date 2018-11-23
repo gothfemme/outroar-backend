@@ -8,6 +8,10 @@ class UsersController < ApplicationController
     render json: {conversations: ActiveModel::Serializer::CollectionSerializer.new(current_user.conversations, serializer: ConversationSerializer)}
   end
 
+  def current
+    render json: current_user, serializer: UserSerializer
+  end
+
   # GET /users
   def index
     @users = User.all
