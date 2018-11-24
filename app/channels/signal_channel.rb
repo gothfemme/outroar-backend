@@ -3,11 +3,12 @@ class SignalChannel < ApplicationCable::Channel
     # byebug
     @jwt_token = params[:token] || raise(CustomErrorClass)
     @current_user = find_verified_user
-    stream_from "signal_channel_user_#{@current_user.id}"
+    # room = params[:room]
+    stream_from "signal_channel_#{params[:room]}_user_#{@current_user.id}"
   end
 
   def send_signal(data)
-    ActionCable.server.broadcast("signal_channel_user_#{data["to"]}", data.merge({from: @current_user.id})) unless data["to"] == @current_user.id
+    ActionCable.server.broadcast("signal_channel_#{params[:room]}_user_#{data["to"]}", data.merge({from: @current_user.id})) unless data["to"] == @current_user.id
   end
 
 
