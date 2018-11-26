@@ -19,7 +19,7 @@ class ConversationsController < ApplicationController
 
   # POST /conversations
   def create
-    @conversation = Conversation.new(conversation_params)
+    @conversation = Conversation.new(name:params[:name])
 
     if @conversation.save
       render json: @conversation
