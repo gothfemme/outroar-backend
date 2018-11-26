@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :authenticate_user
+  before_action :authenticate_user, only: [:splash, :current, :index, :show, :update, :destroy]
   before_action :set_user, only: [:show, :update, :destroy]
 
   def splash
@@ -26,10 +26,11 @@ class UsersController < ApplicationController
 
   # POST /users
   def create
-    @user = User.new(user_params)
+    @user = User.new(username: params[:username], password: params[:password], password_confirmation: params[:password_confirmation])
 
     if @user.save
-      render json: @user, status: :created, location: @user
+      token = Knock::AuthToken.new(payload: { sub: @user.id }).token
+      render json: {user: UserSerializer.new(@user), token: token}, status: :created
     else
       render json: @user.errors, status: :unprocessable_entity
     end

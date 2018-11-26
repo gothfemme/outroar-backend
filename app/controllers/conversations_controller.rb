@@ -3,7 +3,11 @@ class ConversationsController < ApplicationController
 
   # GET /conversations
   def index
-    @conversations = Conversation.all
+    if params[:search]
+      @conversations = Conversation.where("name ILIKE :search", search: "%#{params[:search]}%")
+    else
+      @conversations = Conversation.all
+    end
 
     render json: @conversations
   end
