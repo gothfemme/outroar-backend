@@ -1,4 +1,4 @@
 class Membership < ApplicationRecord
-  belongs_to :user
-  belongs_to :conversation
+  # belongs_to :user
+  # belongs_to :conversation
 end

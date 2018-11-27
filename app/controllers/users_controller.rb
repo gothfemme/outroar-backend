@@ -1,11 +1,9 @@
 class UsersController < ApplicationController
   before_action :authenticate_user, only: [:splash, :current, :index, :show, :update, :destroy]
-  before_action :set_user, only: [:show, :update, :destroy]
+  before_action :set_user, only: [:show, :destroy]
 
   def splash
-    # response includes conversation titles, friends, and friend requests
-
-    render json: {conversations: ActiveModel::Serializer::CollectionSerializer.new(current_user.conversations, serializer: ConversationSerializer)}
+    render json: ActiveModel::Serializer::CollectionSerializer.new(current_user.conversations, serializer: ConversationSerializer)
   end
 
   def current
@@ -38,7 +36,7 @@ class UsersController < ApplicationController
 
   # PATCH/PUT /users/1
   def update
-    if @user.update(user_params)
+    if current_user.update(color: params[:color])
       render json: @user
     else
       render json: @user.errors, status: :unprocessable_entity

@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :messages
-  has_many :memberships
-  has_many :conversations, through: :memberships
+  has_many :favorites
+  has_many :conversations, through: :favorites
 
   def self.from_token_request request
     username = request.params["auth"] && request.params["auth"]["username"]

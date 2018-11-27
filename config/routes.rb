@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
+  post 'favorites' => 'favorites#create'
+  delete 'favorites' => 'favorites#destroy'
   resources :memberships
   resources :messages
   resources :conversations
   get 'current' => 'users#current'
   post 'user_token' => 'user_token#create'
-  post 'splash' => 'users#splash'
+  get 'splash' => 'users#splash'
+  patch 'users' => 'users#update'
   resources :users, only: [:create]
 
   mount ActionCable.server => '/cable'
