@@ -5,6 +5,8 @@ class ConversationsController < ApplicationController
   def index
     if params[:search]
       @conversations = Conversation.where("name ILIKE :search", search: "%#{params[:search]}%")
+    elsif params[:popular]
+      @conversations = Conversation.left_joins(:favorites).group(:id).order('COUNT(favorites.conversation_id) DESC').limit(10)
     else
       @conversations = Conversation.all
     end

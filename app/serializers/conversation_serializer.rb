@@ -1,5 +1,5 @@
 class ConversationSerializer < ActiveModel::Serializer
-  attributes :id, :name, :created_at
+  attributes :id, :name, :created_at, :like_count
   # has_many :users, serializer: UserSerializer
   # has_many :messages, serializer: MessageSerializer
 end
