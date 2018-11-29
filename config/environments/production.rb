@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   config.web_socket_server_url = "wss://outroar-backend.herokuapp.com/cable"
-  config.action_cable.allowed_request_origins = ['https://outroar-backend.herokuapp.com', 'http://outroar-backend.herokuapp.com']
+  config.action_cable.allowed_request_origins = ['https://outroar-backend.herokuapp.com', 'http://outroar-backend.herokuapp.com', 'https://outroar-app.herokuapp.com, http://outroar-app.herokuapp.com']
 
   # Code is not reloaded between requests.
   config.cache_classes = true
