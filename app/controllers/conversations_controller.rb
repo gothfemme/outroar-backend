@@ -14,6 +14,11 @@ class ConversationsController < ApplicationController
     render json: @conversations
   end
 
+  def random
+    @conversation = Conversation.all.sample
+    render json: @conversation
+  end
+
   # GET /conversations/1
   def show
     render json: @conversation, serializer: ConversationHistorySerializer

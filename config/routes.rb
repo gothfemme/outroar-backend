@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'current' => 'users#current'
   post 'user_token' => 'user_token#create'
   get 'splash' => 'users#splash'
+  get 'conversations/random' => 'conversations#random'
   patch 'users' => 'users#update'
   resources :users, only: [:create]
 
