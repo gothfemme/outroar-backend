@@ -18,7 +18,7 @@ class FavoritesController < ApplicationController
     @favorite = Favorite.new(user_id: current_user.id, conversation_id: params[:conversation_id])
 
     if @favorite.save
-      render json: @favorite, status: :created, location: @favorite
+      render json: @favorite, status: :created
     else
       render json: @favorite.errors, status: :unprocessable_entity
     end

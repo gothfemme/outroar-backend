@@ -3,11 +3,11 @@ Rails.application.routes.draw do
   delete 'favorites' => 'favorites#destroy'
   resources :memberships
   resources :messages
+  get 'conversations/random' => 'conversations#random'
   resources :conversations
   get 'current' => 'users#current'
   post 'user_token' => 'user_token#create'
   get 'splash' => 'users#splash'
-  get 'conversations/random' => 'conversations#random'
   patch 'users' => 'users#update'
   resources :users, only: [:create]
 

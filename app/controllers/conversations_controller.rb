@@ -16,7 +16,7 @@ class ConversationsController < ApplicationController
 
   def random
     @conversation = Conversation.all.sample
-    render json: @conversation
+    render json: {id: @conversation.id}
   end
 
   # GET /conversations/1
