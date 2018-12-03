@@ -7,6 +7,16 @@ class PresenceChannel < ApplicationCable::Channel
     stream_from "presence_channel_#{params[:room]}"
   end
 
+  def kick_user (data)
+    if @current_user.id == Conversation.find(params[:room]).owner.id
+      ActionCable.server.broadcast("presence_channel_#{params[:room]}", data)
+    end
+  end
+
+  def delete_channel(data)
+      ActionCable.server.broadcast("presence_channel_#{params[:room]}", data )
+  end
+
   def user_join(data)
     ActionCable.server.broadcast("presence_channel_#{params[:room]}", data)
   end

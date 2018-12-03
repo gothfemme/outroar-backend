@@ -1,5 +1,6 @@
 class ConversationsController < ApplicationController
-  before_action :set_conversation, only: [:show, :update, :destroy]
+  before_action :authenticate_user
+  before_action :set_conversation, only: [:show, :update, :destroy, :validate]
 
   # GET /conversations
   def index
@@ -21,12 +22,16 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/1
   def show
-    render json: @conversation, serializer: ConversationHistorySerializer
+    if @conversation.owner == current_user
+      render json: @conversation, serializer: AdminConversationHistorySerializer
+    else
+      render json: @conversation, serializer: ConversationHistorySerializer
+    end
   end
 
   # POST /conversations
   def create
-    @conversation = Conversation.new(name:params[:name])
+    @conversation = Conversation.new(name:params[:name], user_id: current_user.id)
 
     if @conversation.save
       render json: @conversation
@@ -37,16 +42,31 @@ class ConversationsController < ApplicationController
 
   # PATCH/PUT /conversations/1
   def update
-    if @conversation.update(conversation_params)
-      render json: @conversation
+    if @conversation.owner == current_user
+      if @conversation.update(conversation_params)
+        render json: @conversation
+      else
+        render json: @conversation.errors, status: :unprocessable_entity
+      end
+    end
+  end
+
+  def validate
+    if @conversation.password == params[:password]
+      render json: {success: true}
     else
-      render json: @conversation.errors, status: :unprocessable_entity
+      render json: {success: false}
     end
   end
 
   # DELETE /conversations/1
   def destroy
-    @conversation.destroy
+    if @conversation.owner.id == current_user.id
+      @conversation.destroy
+      render json: {success: true}
+    else
+      render json: {success: false}
+    end
   end
 
   private
@@ -57,6 +77,6 @@ class ConversationsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def conversation_params
-      params.require(:conversation).permit(:name)
+      params.require(:conversation).permit(:name, :password)
     end
 end
